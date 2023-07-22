@@ -22,10 +22,9 @@ def build_url(callb):
 def menu():
     log('Showing menu')
     xbmcplugin.setContent(plugin_handle, 'videos')
-    for name, callb in (('DASH/WD OK', 'play_dash_wd_ok'),
-                        ('DASH/WD malformed stream headers - plays OK', 'play_malformed_stream_header'),
-                        ('DASH/WD malformed key request headers - crashes', 'play_malformed_keyreq_header'),
-                        ('MP4 file via HTTP', 'play_mp4')):
+    for name, callb in (('Small MP4 file via HTTP', 'play_short_mp4'),
+                        ('Large MP4 file via HTTP', 'play_long_mp4'),
+                        ):
         mnu_item = xbmcgui.ListItem(name)
         mnu_item.setProperty('IsPlayable', 'true')
         mnu_item.setInfo('video', {'mediatype': 'movie', 'title': name})
@@ -33,47 +32,20 @@ def menu():
     xbmcplugin.endOfDirectory(plugin_handle)
 
 
-def create_playitem():
-    # from https://shaka-player-demo.appspot.com/demo/
-    url = 'https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd'
-
-    li = xbmcgui.ListItem(path=url)
-    li.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-    li.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
-    li.setProperty('inputstream', 'inputstream.adaptive')
-    li.setMimeType('application/dash+xml')
-    li.setContentLookup(False)
-    return li
-
-
-def play_dash_wd_ok():
-    log('PLaying DASH+WD')
-    play_item = create_playitem()
-    play_item.setProperty('inputstream.adaptive.stream_headers', 'Pragma=no-cache&DNT=1')
-    play_item.setProperty('inputstream.adaptive.license_key',
-                          'https://cwip-shaka-proxy.appspot.com/no_auth|Pragma=no-cache|R{SSM}|')
+def play_short_mp4():
+    log('PLaying mp4 over HTTP')
+    play_item = xbmcgui.ListItem(
+        path='https://playback.brightcovecdn.com'
+             '/playback/v1/accounts/2821697655001/videos/6319726927112/high.mp4?bcov_auth=ewoJInR5cGUiOiAiSldUIiwKCSJhb'
+             'GciOiAiUlMyNTYiCn0.ewoJImFjY2lkIjogIjI4MjE2OTc2NTUwMDEiCn0.XU9GEvV2NRG__OVbLn9kSt-MX5XHD6MCofzeuD2B89IQOf'
+             'NYDfPPYk0ZZrQT5Lfj_PNIQh-1UsSGRjpeFu_3IJRtAf5HabobscEcBiAluTw2Vjr5WRTaNeI572h-o2zQosoQ4aNS67hl0LDGWQfAqgj'
+             'f1H4EPCrQc-GvlGvoXxgpnnPHQfwLIACoN5TYOREKq26sa4wPEu1v-vWGgQBqssk9IUX2bY7ovfzY9gtec4o7pAXosZvMEiPWx3PX7pOb'
+             '4s13Q6zUReHnCwofnnFewCX2QzgAAUMSqkd73iVA0VWg7Atus6Iag40mJWVoVAOgP_EXFOS76c7GJTb-rOELZw')
+    play_item.setMimeType('video/mp4')
     xbmcplugin.setResolvedUrl(plugin_handle, True, listitem=play_item)
 
 
-def play_malformed_stream_header():
-    log('PLaying DASH+WD with malformed stream headers')
-    play_item = create_playitem()
-    # Stream Headers has a trailing '&', still plays OK
-    play_item.setProperty('inputstream.adaptive.stream_headers', 'Pragma=no-cache&')
-    play_item.setProperty('inputstream.adaptive.license_key',
-                          'https://cwip-shaka-proxy.appspot.com/no_auth|Pragma=no-cache|R{SSM}|')
-    xbmcplugin.setResolvedUrl(plugin_handle, True, listitem=play_item)
-
-
-def play_malformed_keyreq_header():
-    log('PLaying DASH+WD with malformed key request headers')
-    play_item = create_playitem()
-    # License key headers has a trailing '&', kodi crashes
-    play_item.setProperty('inputstream.adaptive.license_key', 'https://cwip-shaka-proxy.appspot.com/no_auth||R{SSM}|')
-    xbmcplugin.setResolvedUrl(plugin_handle, True, listitem=play_item)
-
-
-def play_mp4():
+def play_long_mp4():
     log('PLying mp4 over HTTP')
     play_item = xbmcgui.ListItem(path='https://twit.cachefly.net/video/twit/twit0811/twit0811_h264m_1280x720_1872.mp4')
     play_item.setMimeType('video/mp4')
