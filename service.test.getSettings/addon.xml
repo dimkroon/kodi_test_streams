@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.tst_streams" name="test streams" version="0.1.0" provider-name="Dimitri Kroon">
+<addon id="service.test.getsettings" name="Test Get Settings" version="0.1.0" provider-name="Dimitri Kroon">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
+    <import addon="script.module.inputstreamhelper"/>
+    <import addon="script.module.six"/>
   </requires>
-  <extension point="xbmc.python.pluginsource" library="addon.py">
-    <provides>video</provides>
-  </extension>
+  <extension point="xbmc.service" library="service.py" start="startup" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
     <summary>tst steams</summary>
-    <description>Some tests for James</description>
+    <description>Some test streams</description>
     <disclaimer lang="en">
     </disclaimer>
     <assets>
