@@ -107,7 +107,8 @@ def test_std_json_loads():
 
 
 def test_resp_json():
-    if requests.JSONDecodeError is json.JSONDecodeError:
+    from requests import compat
+    if compat.JSONDecodeError is json.JSONDecodeError:
         log('Testing response.json() using std json ...')
     else:
         log('Testing response.json() using simplejson ...')
@@ -126,7 +127,8 @@ def test_resp_json():
 
 
 def test_unhandled_json_error():
-    if requests.JSONDecodeError is json.JSONDecodeError:
+    from requests import compat
+    if compat.JSONDecodeError is json.JSONDecodeError:
         log('Testing unhandled JSONDecodeError using std json ...')
     else:
         log('Testing unhandled JSONDecodeError using simplejson ...')
