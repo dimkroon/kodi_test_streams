@@ -10,7 +10,6 @@ import xbmc
 import xbmcplugin
 import xbmcgui
 
-import requests
 
 DOC = 'no continue watching items'
 MSG = 'Expecting value'
