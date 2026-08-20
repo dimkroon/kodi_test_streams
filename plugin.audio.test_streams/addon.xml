@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.tst_streams" name="test streams" version="0.1.0" provider-name="Dimitri Kroon">
+<addon id="plugin.audio.test_streams" name="test streams" version="0.3.0" provider-name="Dimitri Kroon">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
-    <import addon="script.module.inputstreamhelper"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="addon.py">
-    <provides>video</provides>
+    <provides>audio</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
