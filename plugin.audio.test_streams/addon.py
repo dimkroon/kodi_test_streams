@@ -45,7 +45,7 @@ def radio_dash():
 
 
 def on_demand_dash():
-    sid = 'p0p0mgpt'
+    sid = 'm00308vj'
     li = stream.play_on_demand(sid)
     xbmcplugin.setResolvedUrl(plugin_handle, True, listitem=li)
 
